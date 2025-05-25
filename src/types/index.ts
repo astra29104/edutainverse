@@ -1,3 +1,5 @@
+import { Database } from './supabase';
+
 export interface User {
   id: string;
   role: 'student' | 'admin';
@@ -18,13 +20,12 @@ export interface Admin extends User {
 }
 
 export interface EnrolledCourse {
+  id: string;
   courseId: string;
   enrolledAt: Date;
-  progress: {
-    completedModules: string[];
-    lastWatchedVideo: string;
-    percentage: number;
-  };
+  lastWatchedVideo?: string;
+  progressPercentage: number;
+  completedModules: string[];
 }
 
 export interface Course {
@@ -33,7 +34,7 @@ export interface Course {
   description: string;
   category: 'Beginner' | 'Average' | 'Advanced';
   thumbnailUrl: string;
-  createdBy: string; // User ID
+  createdBy: string;
   totalEnrollments: number;
   createdAt: Date;
 }
@@ -43,7 +44,7 @@ export interface Module {
   courseId: string;
   title: string;
   description: string;
-  order: number;
+  orderNumber: number;
 }
 
 export interface Video {
@@ -52,5 +53,28 @@ export interface Video {
   title: string;
   videoUrl: string;
   duration: number;
-  order: number;
+  orderNumber: number;
+}
+
+export interface CourseAnalytics {
+  totalViews: number;
+  averageRating: number;
+  completionRate: number;
+  enrollmentTrend: {
+    date: string;
+    count: number;
+  }[];
+}
+
+export interface UserAnalytics {
+  totalActiveUsers: number;
+  averageCompletionRate: number;
+  enrollmentsByCategory: {
+    category: string;
+    count: number;
+  }[];
+  userEngagement: {
+    date: string;
+    activeUsers: number;
+  }[];
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { BookOpen, LogOut, User } from 'lucide-react';
+import { BookOpen, LogOut, User, BarChart2 } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuth();
@@ -11,7 +11,6 @@ const Navbar: React.FC = () => {
     return location.pathname === path;
   };
 
-  // Navigation links based on user role
   const getNavLinks = () => {
     if (!isAuthenticated) {
       return (
@@ -36,14 +35,17 @@ const Navbar: React.FC = () => {
       return (
         <div className="flex items-center space-x-4">
           <div className="hidden md:flex space-x-4">
-            <NavLink to="/admin/dashboard" active={isActive('/admin/dashboard')}>
+            <NavLink to="/admin" active={isActive('/admin')}>
               Dashboard
             </NavLink>
             <NavLink to="/admin/courses" active={isActive('/admin/courses')}>
               Courses
             </NavLink>
-            <NavLink to="/admin/analytics" active={isActive('/admin/analytics')}>
-              Analytics
+            <NavLink to="/admin/analytics/users" active={isActive('/admin/analytics/users')}>
+              User Analytics
+            </NavLink>
+            <NavLink to="/admin/analytics/courses" active={isActive('/admin/analytics/courses')}>
+              Course Analytics
             </NavLink>
           </div>
           <UserMenu userName={user.name} onLogout={logout} />
@@ -54,6 +56,9 @@ const Navbar: React.FC = () => {
     return (
       <div className="flex items-center space-x-4">
         <div className="hidden md:flex space-x-4">
+          <NavLink to="/dashboard" active={isActive('/dashboard')}>
+            Dashboard
+          </NavLink>
           <NavLink to="/courses" active={isActive('/courses')}>
             Courses
           </NavLink>
@@ -86,7 +91,6 @@ const Navbar: React.FC = () => {
   );
 };
 
-// Helper components
 const NavLink: React.FC<{ to: string; active: boolean; children: React.ReactNode }> = ({
   to,
   active,
